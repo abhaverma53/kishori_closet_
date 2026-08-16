@@ -2,8 +2,9 @@
   <div class="max-w-7xl mx-auto px-4 py-2 flex items-center justify-between gap-3">
     <p class="truncate">Free shipping on all orders · New arrivals just dropped</p>
     <div class="hidden sm:flex items-center gap-4 shrink-0">
+      <%= link_to "Instagram", instagram_url, target: "_blank", rel: "noopener", class: "hover:text-gold" %>
+      <%= link_to "Facebook", facebook_url, target: "_blank", rel: "noopener", class: "hover:text-gold" %>
       <%= link_to "WhatsApp", whatsapp_url, target: "_blank", rel: "noopener", class: "hover:text-gold" %>
-      <%= mail_to KishoriCloset::CONTACT_EMAIL, "Email", class: "hover:text-gold" %>
     </div>
   </div>
 </div>

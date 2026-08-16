@@ -4,6 +4,7 @@
       <%= image_tag "logo.png", alt: "Kishori Closet", class: "h-20 w-20 rounded-full object-cover bg-white" %>
       <p class="mt-4 font-serif text-2xl">Kishori Closet</p>
       <p class="mt-2 text-sm text-white/70">Style that speaks you.</p>
+      <%= render "shared/social_links", tone: :dark, wrapper_class: "mt-4 text-sm" %>
     </div>
     <div>
       <h3 class="text-xs tracking-[0.2em] uppercase text-gold mb-4">Shop</h3>
@@ -21,7 +22,7 @@
       <ul class="space-y-2 text-sm text-white/80">
         <li><%= link_to "Contact", contact_path, class: "hover:text-white" %></li>
         <li><%= link_to "Shipping", shipping_path, class: "hover:text-white" %></li>
-        <li><%= link_to "Returns", returns_path, class: "hover:text-white" %></li>
+        <li><%= link_to "Exchange", returns_path, class: "hover:text-white" %></li>
         <li><%= link_to "FAQ", faq_path, class: "hover:text-white" %></li>
       </ul>
     </div>

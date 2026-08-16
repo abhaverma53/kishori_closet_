@@ -3,11 +3,37 @@
   <div class="max-w-3xl mx-auto px-4">
     <p class="text-xs tracking-[0.25em] uppercase text-gold">Our story</p>
     <h1 class="font-serif text-5xl mt-3">About Kishori Closet</h1>
+    <p class="font-serif text-2xl md:text-3xl text-navy mt-4">Where Style Meets You</p>
+
     <div class="mt-8 space-y-4 text-stone-600 leading-relaxed">
-      <p>Kishori Closet is a fashion label for everyday elegance — western wear, indo-western sets, dresses, ethnic pieces and accessories that feel like you.</p>
-      <p>We keep things simple: one honest price on every product, Cash on Delivery, and clothes chosen for how they actually wear.</p>
+      <p>Welcome to Kishori Closet — a fashion destination created for women who believe that getting dressed is more than just choosing an outfit; it is a way of expressing who you are.</p>
+      <p>At Kishori Closet, we bring together elegant ethnic wear, contemporary western styles, chic co-ord sets, graceful dresses, versatile kurtis and statement pieces that are designed to make you feel confident, beautiful and effortlessly stylish.</p>
+      <p>Our philosophy is simple: fashion should feel personal, affordable and empowering.</p>
+      <p>We carefully curate styles that move with today’s woman — from everyday elegance to festive celebrations, casual outings to special occasions. Whether you love timeless sophistication, modern trends or a beautiful blend of both, we want your perfect outfit to feel just a little closer.</p>
+    </div>
+
+    <h2 class="font-serif text-3xl mt-12">Our Vision</h2>
+    <div class="mt-4 space-y-4 text-stone-600 leading-relaxed">
+      <p>Kishori Closet was born from a love for fashion, creativity and the belief that every woman deserves to feel special in what she wears.</p>
+      <p>We aspire to build more than just a clothing brand. We want to create a fashion community where women discover their style, embrace their individuality and dress with confidence.</p>
+      <p>Every collection is thoughtfully selected with an eye for quality, comfort, design and contemporary fashion, while keeping the modern Indian woman at the heart of everything we do.</p>
+    </div>
+
+    <h2 class="font-serif text-3xl mt-12">Why Kishori Closet?</h2>
+    <div class="mt-4 space-y-4 text-stone-600 leading-relaxed">
+      <p>Because we believe you don’t need a special occasion to feel special.</p>
+      <p>From that outfit that makes you feel instantly confident, to the one you reach for again and again — Kishori Closet is here to add a little more style, confidence and joy to your everyday wardrobe.</p>
+      <p>Discover your style. Own your confidence. Be unapologetically you.</p>
+      <p>Welcome to Kishori Closet.</p>
+      <p class="font-medium text-navy">Your closet. Your style. Your story.</p>
       <p>Have a question about fit, fabric or an order? Write to us at <%= mail_to KishoriCloset::CONTACT_EMAIL, KishoriCloset::CONTACT_EMAIL, class: "text-brand" %> or call <%= KishoriCloset::CONTACT_PHONE %>.</p>
     </div>
-    <%= link_to "Shop the closet", shop_path, class: "btn-primary mt-8" %>
+
+    <div class="mt-10">
+      <p class="text-xs tracking-[0.2em] uppercase text-brand mb-3">Follow us</p>
+      <%= render "shared/social_links", wrapper_class: "text-sm font-medium" %>
+    </div>
+
+    <%= link_to "Shop the closet", shop_path, class: "btn-primary mt-10" %>
   </div>
 </section>
