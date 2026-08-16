@@ -1,0 +1,99 @@
+<% content_for :title, @product.name %>
+<section class="max-w-7xl mx-auto px-4 py-10" data-controller="gallery">
+  <p class="text-xs uppercase tracking-[0.18em] text-stone-400">Home / <%= link_to "Shop", shop_path %> / <%= @product.name %></p>
+
+  <div class="mt-8 grid lg:grid-cols-2 gap-12">
+    <div class="grid grid-cols-[72px_1fr] gap-3">
+      <div class="space-y-2">
+        <% if @product.images.attached? %>
+          <% @product.images.each_with_index do |image, index| %>
+            <button type="button" class="block w-full aspect-square overflow-hidden border border-stone-200" data-action="gallery#select" data-gallery-url-param="<%= url_for(image) %>">
+              <%= image_tag image, class: "w-full h-full object-cover", alt: "#{@product.name} #{index + 1}" %>
+            </button>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="aspect-[3/4] bg-cream overflow-hidden">
+        <% if @product.main_image %>
+          <%= image_tag @product.main_image, class: "w-full h-full object-cover", data: { gallery_target: "main" }, alt: @product.name %>
+        <% else %>
+          <div class="flex items-center justify-center h-full font-serif text-6xl text-brand"><%= @product.name.first %></div>
+        <% end %>
+      </div>
+    </div>
+
+    <div>
+      <p class="text-xs uppercase tracking-[0.18em] text-stone-500"><%= @product.category.name %></p>
+      <h1 class="font-serif text-4xl md:text-5xl mt-2"><%= @product.name %></h1>
+      <p class="mt-4 text-2xl text-brand font-medium"><%= inr(@product.price) %></p>
+
+      <div class="mt-6 space-y-1 text-sm text-stone-600">
+        <p><span class="text-navy font-medium">Color:</span> <%= @product.color %></p>
+        <p><span class="text-navy font-medium">Fabric:</span> <%= @product.fabric %></p>
+        <p><span class="text-navy font-medium">SKU:</span> <%= @product.sku %></p>
+      </div>
+
+      <div class="mt-6 prose prose-stone max-w-none text-stone-600">
+        <%= simple_format(@product.description) %>
+      </div>
+
+      <%= form_with url: add_cart_path, method: :post, local: true, class: "mt-8 space-y-6", data: { controller: "quantity" } do %>
+        <div>
+          <div class="flex items-center justify-between">
+            <p class="text-xs uppercase tracking-[0.18em]">Size</p>
+          </div>
+          <div class="mt-3 flex flex-wrap gap-2">
+            <% first_available = @product.available_sizes.find(&:in_stock?) %>
+            <% @product.available_sizes.each do |variant| %>
+              <label class="relative">
+                <%= radio_button_tag :product_variant_id, variant.id, first_available&.id == variant.id,
+                    disabled: variant.out_of_stock?,
+                    class: "peer sr-only",
+                    required: true %>
+                <span class="size-btn inline-flex items-center justify-center peer-checked:bg-brand peer-checked:text-white peer-checked:border-brand <%= 'size-btn-disabled' if variant.out_of_stock? %>">
+                  <%= variant.size %>
+                </span>
+              </label>
+            <% end %>
+          </div>
+          <% if @product.in_stock? %>
+            <p class="mt-2 text-xs text-stone-500">Select a size to add this piece to your cart.</p>
+          <% else %>
+            <p class="mt-2 text-sm text-rose-700 font-medium">Out of Stock</p>
+          <% end %>
+        </div>
+
+        <div>
+          <p class="text-xs uppercase tracking-[0.18em]">Quantity</p>
+          <div class="mt-3 inline-flex items-center border border-stone-300">
+            <button type="button" class="px-3 py-2" data-action="quantity#decrease">−</button>
+            <%= number_field_tag :quantity, 1, min: 1, class: "w-14 text-center border-0 focus:outline-none py-2", data: { quantity_target: "input" } %>
+            <button type="button" class="px-3 py-2" data-action="quantity#increase">+</button>
+          </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3">
+          <%= submit_tag "Add to cart", class: "btn-primary cursor-pointer", disabled: !@product.in_stock? %>
+          <%= submit_tag "Buy now", formaction: buy_now_cart_path, class: "btn-outline cursor-pointer", disabled: !@product.in_stock? %>
+        </div>
+      <% end %>
+
+      <div class="mt-8 grid grid-cols-3 gap-4 text-center text-xs uppercase tracking-[0.12em] text-stone-500 border-t border-stone-100 pt-6">
+        <p>Free shipping</p>
+        <p>7-day returns</p>
+        <p>Cash on Delivery</p>
+      </div>
+    </div>
+  </div>
+
+  <% if @related.any? %>
+    <div class="mt-20">
+      <h2 class="font-serif text-3xl mb-8">You may also like</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <% @related.each do |product| %>
+          <%= render "products/card", product: product %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</section>

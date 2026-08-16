@@ -1,0 +1,16 @@
+<% content_for :title, "Order placed" %>
+<section class="max-w-xl mx-auto px-4 py-16 text-center">
+  <p class="text-xs tracking-[0.25em] uppercase text-gold">Kishori Closet</p>
+  <h1 class="font-serif text-4xl mt-3">Order placed successfully</h1>
+  <p class="mt-4 text-stone-600">Thank you for your order!</p>
+  <div class="mt-8 border border-stone-100 p-6 text-left space-y-3">
+    <p><span class="text-stone-500">Order Number:</span> <strong><%= @order.order_number %></strong></p>
+    <p><span class="text-stone-500">Payment:</span> <%= @order.payment_label %></p>
+    <p><span class="text-stone-500">Total:</span> <%= inr(@order.total) %></p>
+    <p><span class="text-stone-500">Status:</span> <%= @order.status_label %></p>
+  </div>
+  <div class="mt-8 flex flex-col sm:flex-row justify-center gap-3">
+    <%= link_to "View order", order_path(@order), class: "btn-primary" %>
+    <%= link_to "Continue shopping", shop_path, class: "btn-outline" %>
+  </div>
+</section>

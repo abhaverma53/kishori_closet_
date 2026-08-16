@@ -1,0 +1,13 @@
+<% content_for :title, "About" %>
+<section class="bg-cream py-16">
+  <div class="max-w-3xl mx-auto px-4">
+    <p class="text-xs tracking-[0.25em] uppercase text-gold">Our story</p>
+    <h1 class="font-serif text-5xl mt-3">About Kishori Closet</h1>
+    <div class="mt-8 space-y-4 text-stone-600 leading-relaxed">
+      <p>Kishori Closet is a fashion label for everyday elegance — western wear, indo-western sets, dresses, ethnic pieces and accessories that feel like you.</p>
+      <p>We keep things simple: one honest price on every product, Cash on Delivery, and clothes chosen for how they actually wear.</p>
+      <p>Have a question about fit, fabric or an order? Write to us at <%= mail_to KishoriCloset::CONTACT_EMAIL, KishoriCloset::CONTACT_EMAIL, class: "text-brand" %> or call <%= KishoriCloset::CONTACT_PHONE %>.</p>
+    </div>
+    <%= link_to "Shop the closet", shop_path, class: "btn-primary mt-8" %>
+  </div>
+</section>

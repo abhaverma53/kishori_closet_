@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+
+if ! gem list foreman -i --silent; then
+  echo "Installing foreman..."
+  gem install foreman
+fi
+
+# Default to port 3000 if not specified
+export PORT="${PORT:-3000}"
+
+# Let the debug gem allow remote connections,
+# but avoid loading until `debugger` is called
+export RUBY_DEBUG_OPEN="true"
+export RUBY_DEBUG_LAZY="true"
+
+GEM_BIN="$(ruby -e 'puts Gem.bindir')"
+export PATH="$GEM_BIN:$PATH"
+
+exec foreman start -f Procfile.dev "$@"

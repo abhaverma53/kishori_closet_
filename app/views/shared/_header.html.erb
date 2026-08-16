@@ -1,0 +1,71 @@
+<header class="border-b border-stone-100 bg-white/95 sticky top-0 z-40 backdrop-blur" data-controller="menu">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between h-16 md:h-20 gap-4">
+      <button type="button" class="md:hidden p-2 -ml-2" data-action="menu#toggle" aria-label="Open menu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+
+      <%= link_to root_path, class: "flex items-center gap-2 shrink-0" do %>
+        <%= image_tag "logo.png", alt: "Kishori Closet", class: "h-12 w-12 md:h-14 md:w-14 rounded-full object-cover" %>
+        <span class="hidden sm:block font-serif text-xl md:text-2xl text-brand leading-none">Kishori Closet</span>
+      <% end %>
+
+      <nav class="hidden lg:flex items-center gap-6">
+        <%= nav_link "Home", root_path %>
+        <%= nav_link "Shop", shop_path %>
+        <%= nav_link "New Arrivals", new_arrivals_path %>
+        <%= nav_link "Best Sellers", best_sellers_path %>
+        <%= nav_link "Sale", sale_path %>
+        <%= nav_link "About", about_path %>
+        <%= nav_link "Contact", contact_path %>
+      </nav>
+
+      <div class="flex items-center gap-2 md:gap-4">
+        <button type="button" class="p-2" data-action="menu#toggleSearch" aria-label="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="m21 21-4.3-4.3M16 10.5A5.5 5.5 0 1 1 5 10.5a5.5 5.5 0 0 1 11 0Z"/></svg>
+        </button>
+        <% if user_signed_in? %>
+          <%= link_to (current_user.admin? ? admin_root_path : account_path), class: "p-2", aria: { label: "Account" } do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 20a8 8 0 1 1 16 0"/></svg>
+          <% end %>
+        <% else %>
+          <%= link_to new_user_session_path, class: "p-2", aria: { label: "Account" } do %>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0ZM4 20a8 8 0 1 1 16 0"/></svg>
+          <% end %>
+        <% end %>
+        <%= link_to cart_path, class: "p-2 relative", aria: { label: "Cart" } do %>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6 7h12l-1 12H7L6 7Zm3 0a3 3 0 1 1 6 0"/></svg>
+          <% if cart_count.positive? %>
+            <span class="absolute -top-0.5 -right-0.5 bg-brand text-white text-[10px] min-w-4 h-4 px-1 rounded-full flex items-center justify-center"><%= cart_count %></span>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <div class="hidden pb-4" data-menu-target="search">
+      <%= form_with url: shop_path, method: :get, local: true, class: "flex gap-2" do %>
+        <%= text_field_tag :q, params[:q], placeholder: "Search dresses, tops, co-ord sets...", class: "field-input" %>
+        <%= submit_tag "Search", class: "btn-primary cursor-pointer" %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="hidden md:hidden border-t border-stone-100 bg-white" data-menu-target="panel">
+    <nav class="px-4 py-4 flex flex-col gap-3">
+      <%= link_to "Home", root_path, class: "uppercase tracking-[0.18em] text-xs" %>
+      <%= link_to "Shop", shop_path, class: "uppercase tracking-[0.18em] text-xs" %>
+      <%= link_to "New Arrivals", new_arrivals_path, class: "uppercase tracking-[0.18em] text-xs" %>
+      <%= link_to "Best Sellers", best_sellers_path, class: "uppercase tracking-[0.18em] text-xs" %>
+      <%= link_to "Sale", sale_path, class: "uppercase tracking-[0.18em] text-xs" %>
+      <%= link_to "About", about_path, class: "uppercase tracking-[0.18em] text-xs" %>
+      <%= link_to "Contact", contact_path, class: "uppercase tracking-[0.18em] text-xs" %>
+      <% if user_signed_in? %>
+        <%= link_to "My Account", account_path, class: "uppercase tracking-[0.18em] text-xs" %>
+        <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "uppercase tracking-[0.18em] text-xs text-left" %>
+      <% else %>
+        <%= link_to "Login", new_user_session_path, class: "uppercase tracking-[0.18em] text-xs" %>
+        <%= link_to "Sign up", new_user_registration_path, class: "uppercase tracking-[0.18em] text-xs" %>
+      <% end %>
+    </nav>
+  </div>
+</header>

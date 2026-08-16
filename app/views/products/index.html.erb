@@ -1,0 +1,76 @@
+<% content_for :title, @heading %>
+<section class="max-w-7xl mx-auto px-4 py-10">
+  <p class="text-xs uppercase tracking-[0.18em] text-stone-400">Home / <%= @heading %></p>
+  <div class="mt-3 flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+    <div>
+      <h1 class="font-serif text-4xl md:text-5xl"><%= @heading %></h1>
+      <% if @subtitle.present? %>
+        <p class="mt-2 text-stone-500"><%= @subtitle %></p>
+      <% end %>
+    </div>
+    <p class="text-sm text-stone-500"><%= pluralize(@products.size, "result") %></p>
+  </div>
+
+  <div class="mt-8 grid lg:grid-cols-[240px_1fr] gap-10">
+    <aside>
+      <%= form_with url: request.path, method: :get, local: true, class: "space-y-6" do %>
+        <%= hidden_field_tag :q, params[:q] if params[:q].present? %>
+        <div>
+          <p class="text-xs uppercase tracking-[0.18em] mb-3">Category</p>
+          <select name="category_id" class="field-input">
+            <option value="">All</option>
+            <% @categories.each do |category| %>
+              <option value="<%= category.id %>" <%= "selected" if params[:category_id].to_s == category.id.to_s %>><%= category.name %></option>
+            <% end %>
+          </select>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.18em] mb-3">Size</p>
+          <select name="size" class="field-input">
+            <option value="">All</option>
+            <% @sizes.each do |size| %>
+              <option value="<%= size %>" <%= "selected" if params[:size] == size %>><%= size %></option>
+            <% end %>
+          </select>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.18em] mb-3">Price</p>
+          <div class="grid grid-cols-2 gap-2">
+            <%= number_field_tag :min_price, params[:min_price], placeholder: "Min", class: "field-input" %>
+            <%= number_field_tag :max_price, params[:max_price], placeholder: "Max", class: "field-input" %>
+          </div>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.18em] mb-3">Availability</p>
+          <select name="availability" class="field-input">
+            <option value="">All</option>
+            <option value="in_stock" <%= "selected" if params[:availability] == "in_stock" %>>In stock</option>
+            <option value="out_of_stock" <%= "selected" if params[:availability] == "out_of_stock" %>>Out of stock</option>
+          </select>
+        </div>
+        <div>
+          <p class="text-xs uppercase tracking-[0.18em] mb-3">Sort</p>
+          <select name="sort" class="field-input">
+            <option value="newest" <%= "selected" if params[:sort].blank? || params[:sort] == "newest" %>>Newest</option>
+            <option value="price_asc" <%= "selected" if params[:sort] == "price_asc" %>>Price: low to high</option>
+            <option value="price_desc" <%= "selected" if params[:sort] == "price_desc" %>>Price: high to low</option>
+          </select>
+        </div>
+        <%= submit_tag "Apply filters", class: "btn-primary w-full cursor-pointer" %>
+        <%= link_to "Clear", request.path, class: "block text-center text-xs uppercase tracking-[0.18em] text-stone-500 mt-2" %>
+      <% end %>
+    </aside>
+
+    <div>
+      <% if @products.any? %>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <% @products.each do |product| %>
+            <%= render "products/card", product: product %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-stone-500">No products found. Try another search or filter.</p>
+      <% end %>
+    </div>
+  </div>
+</section>

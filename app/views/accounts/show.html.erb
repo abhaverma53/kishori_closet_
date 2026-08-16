@@ -1,0 +1,50 @@
+<% content_for :title, "My Account" %>
+<section class="max-w-4xl mx-auto px-4 py-10">
+  <h1 class="font-serif text-4xl">My Account</h1>
+  <div class="mt-8 grid md:grid-cols-2 gap-6">
+    <div class="border border-stone-100 p-6">
+      <h2 class="text-xs uppercase tracking-[0.2em] text-brand">Profile</h2>
+      <p class="mt-4"><%= current_user.name %></p>
+      <p class="text-stone-600"><%= current_user.email %></p>
+      <p class="text-stone-600"><%= current_user.phone.presence || "No phone added" %></p>
+      <%= link_to "Edit profile", edit_account_path, class: "btn-outline mt-6" %>
+    </div>
+    <div class="border border-stone-100 p-6">
+      <h2 class="text-xs uppercase tracking-[0.2em] text-brand">Addresses</h2>
+      <% if @addresses.any? %>
+        <ul class="mt-4 space-y-3 text-sm text-stone-600">
+          <% @addresses.first(2).each do |address| %>
+            <li><%= address.full_address %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p class="mt-4 text-stone-500">No saved addresses yet.</p>
+      <% end %>
+      <%= link_to "Manage addresses", addresses_path, class: "btn-outline mt-6" %>
+    </div>
+  </div>
+  <div class="mt-8">
+    <div class="flex items-center justify-between">
+      <h2 class="font-serif text-2xl">Orders</h2>
+      <%= link_to "View all", orders_path, class: "text-xs uppercase tracking-[0.18em] text-brand" %>
+    </div>
+    <% if @orders.any? %>
+      <div class="mt-4 divide-y divide-stone-100">
+        <% @orders.each do |order| %>
+          <div class="py-4 flex items-center justify-between">
+            <div>
+              <p class="font-medium"><%= order.order_number %></p>
+              <p class="text-sm text-stone-500"><%= inr(order.total) %> · <%= order.status_label %></p>
+            </div>
+            <%= link_to "View", order_path(order), class: "text-xs uppercase tracking-[0.16em]" %>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="mt-4 text-stone-500">No orders yet.</p>
+    <% end %>
+  </div>
+  <div class="mt-10">
+    <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "text-xs uppercase tracking-[0.18em] text-stone-500" %>
+  </div>
+</section>

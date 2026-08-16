@@ -1,0 +1,19 @@
+<% content_for :title, "Edit profile" %>
+<section class="max-w-xl mx-auto px-4 py-10">
+  <h1 class="font-serif text-4xl">Edit profile</h1>
+  <%= form_with model: current_user, url: account_path, method: :patch, local: true, class: "mt-8 space-y-4" do |f| %>
+    <% if current_user.errors.any? %>
+      <div class="text-sm text-rose-700"><%= current_user.errors.full_messages.to_sentence %></div>
+    <% end %>
+    <div>
+      <%= f.label :name, class: "text-xs uppercase tracking-[0.14em]" %>
+      <%= f.text_field :name, required: true, class: "field-input mt-2" %>
+    </div>
+    <div>
+      <%= f.label :phone, class: "text-xs uppercase tracking-[0.14em]" %>
+      <%= f.text_field :phone, class: "field-input mt-2" %>
+    </div>
+    <p class="text-sm text-stone-500">Email cannot be changed here: <%= current_user.email %></p>
+    <%= f.submit "Save changes", class: "btn-primary cursor-pointer" %>
+  <% end %>
+</section>
