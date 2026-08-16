@@ -1,0 +1,10 @@
+<%= form_with model: [:admin, category], local: true, class: "mt-8 max-w-xl bg-white border border-stone-100 p-6 space-y-4" do |f| %>
+  <% if category.errors.any? %>
+    <div class="text-sm text-rose-700"><%= category.errors.full_messages.to_sentence %></div>
+  <% end %>
+  <%= f.text_field :name, placeholder: "Name", required: true, class: "field-input" %>
+  <%= f.text_field :slug, placeholder: "Slug (optional)", class: "field-input" %>
+  <%= f.text_area :description, placeholder: "Description", rows: 3, class: "field-input" %>
+  <label class="flex items-center gap-2 text-sm"><%= f.check_box :active %> Active</label>
+  <%= f.submit "Save category", class: "btn-primary cursor-pointer" %>
+<% end %>

@@ -1,0 +1,27 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  slug: MyString
+  description: MyText
+  price: 9.99
+  sku: MyString
+  category: one
+  color: MyString
+  fabric: MyString
+  active: false
+  new_arrival: false
+  best_seller: false
+
+two:
+  name: MyString
+  slug: MyString
+  description: MyText
+  price: 9.99
+  sku: MyString
+  category: two
+  color: MyString
+  fabric: MyString
+  active: false
+  new_arrival: false
+  best_seller: false

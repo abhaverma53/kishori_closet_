@@ -1,0 +1,51 @@
+<%= form_with model: [:admin, product], local: true, html: { multipart: true }, class: "mt-8 max-w-3xl bg-white border border-stone-100 p-6 space-y-5" do |f| %>
+  <% if product.errors.any? %>
+    <div class="text-sm text-rose-700"><%= product.errors.full_messages.to_sentence %></div>
+  <% end %>
+  <%= f.text_field :name, placeholder: "Product name", required: true, class: "field-input" %>
+  <%= f.text_area :description, placeholder: "Description", rows: 5, class: "field-input" %>
+  <div class="grid sm:grid-cols-2 gap-4">
+    <%= f.number_field :price, placeholder: "Price", step: 1, min: 1, required: true, class: "field-input" %>
+    <%= f.text_field :sku, placeholder: "SKU", required: true, class: "field-input" %>
+  </div>
+  <%= f.collection_select :category_id, Category.ordered, :id, :name, { prompt: "Category" }, class: "field-input" %>
+  <div class="grid sm:grid-cols-2 gap-4">
+    <%= f.text_field :color, placeholder: "Color", required: true, class: "field-input" %>
+    <%= f.text_field :fabric, placeholder: "Fabric", required: true, class: "field-input" %>
+  </div>
+  <div>
+    <p class="text-xs uppercase tracking-[0.16em] mb-2">Images</p>
+    <% if product.images.attached? %>
+      <div class="flex flex-wrap gap-3 mb-3">
+        <% product.images.each do |image| %>
+          <div class="w-24">
+            <%= image_tag image, class: "w-24 h-32 object-cover" %>
+            <%= button_to "Remove", remove_image_admin_product_path(product, image_id: image.id), method: :delete, class: "text-xs text-rose-700 mt-1" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+    <%= f.file_field :images, multiple: true, accept: "image/*", class: "text-sm" %>
+  </div>
+  <div>
+    <p class="text-xs uppercase tracking-[0.16em] mb-3">Sizes & stock</p>
+    <div class="space-y-2">
+      <%= f.fields_for :product_variants, product.product_variants.sort_by { |v| ProductVariant::SIZES.index(v.size).to_i } do |vf| %>
+        <div class="grid grid-cols-[80px_1fr_100px_80px] gap-3 items-center">
+          <%= vf.hidden_field :id %>
+          <%= vf.hidden_field :size %>
+          <p class="font-medium"><%= vf.object.size %></p>
+          <%= vf.text_field :sku, placeholder: "SKU", class: "field-input !py-2" %>
+          <%= vf.number_field :stock_quantity, min: 0, class: "field-input !py-2", placeholder: "Stock" %>
+          <label class="text-sm flex items-center gap-1"><%= vf.check_box :active %> Active</label>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="flex flex-wrap gap-6 text-sm">
+    <label class="flex items-center gap-2"><%= f.check_box :new_arrival %> New Arrival</label>
+    <label class="flex items-center gap-2"><%= f.check_box :best_seller %> Best Seller</label>
+    <label class="flex items-center gap-2"><%= f.check_box :active %> Active</label>
+  </div>
+  <%= f.submit "Save product", class: "btn-primary cursor-pointer" %>
+<% end %>

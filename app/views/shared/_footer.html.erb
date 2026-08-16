@@ -1,0 +1,47 @@
+<footer class="bg-navy text-white mt-16">
+  <div class="max-w-7xl mx-auto px-4 py-14 grid grid-cols-2 md:grid-cols-4 gap-10">
+    <div class="col-span-2 md:col-span-1">
+      <%= image_tag "logo.png", alt: "Kishori Closet", class: "h-20 w-20 rounded-full object-cover bg-white" %>
+      <p class="mt-4 font-serif text-2xl">Kishori Closet</p>
+      <p class="mt-2 text-sm text-white/70">Style that speaks you.</p>
+    </div>
+    <div>
+      <h3 class="text-xs tracking-[0.2em] uppercase text-gold mb-4">Shop</h3>
+      <ul class="space-y-2 text-sm text-white/80">
+        <li><%= link_to "New Arrivals", new_arrivals_path, class: "hover:text-white" %></li>
+        <li><%= link_to "Best Sellers", best_sellers_path, class: "hover:text-white" %></li>
+        <li><%= link_to "Dresses", shop_path(category_id: footer_category_id("dresses")), class: "hover:text-white" %></li>
+        <li><%= link_to "Tops", shop_path(category_id: footer_category_id("tops")), class: "hover:text-white" %></li>
+        <li><%= link_to "Co-ord Sets", shop_path(category_id: footer_category_id("co-ord-sets")), class: "hover:text-white" %></li>
+        <li><%= link_to "Sale", sale_path, class: "hover:text-white" %></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-xs tracking-[0.2em] uppercase text-gold mb-4">Customer Care</h3>
+      <ul class="space-y-2 text-sm text-white/80">
+        <li><%= link_to "Contact", contact_path, class: "hover:text-white" %></li>
+        <li><%= link_to "Shipping", shipping_path, class: "hover:text-white" %></li>
+        <li><%= link_to "Returns", returns_path, class: "hover:text-white" %></li>
+        <li><%= link_to "FAQ", faq_path, class: "hover:text-white" %></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="text-xs tracking-[0.2em] uppercase text-gold mb-4">Company</h3>
+      <ul class="space-y-2 text-sm text-white/80">
+        <li><%= link_to "About Us", about_path, class: "hover:text-white" %></li>
+        <li><%= link_to "Privacy Policy", privacy_path, class: "hover:text-white" %></li>
+        <li><%= link_to "Terms & Conditions", terms_path, class: "hover:text-white" %></li>
+      </ul>
+      <p class="mt-6 text-sm text-white/80">
+        <%= KishoriCloset::CONTACT_PHONE %><br>
+        <%= KishoriCloset::CONTACT_EMAIL %>
+      </p>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-white/60">
+      <p>© <%= Date.current.year %> Kishori Closet. All rights reserved.</p>
+      <p>Cash on Delivery available across India.</p>
+    </div>
+  </div>
+</footer>

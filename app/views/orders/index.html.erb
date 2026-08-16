@@ -1,0 +1,23 @@
+<% content_for :title, "My Orders" %>
+<section class="max-w-4xl mx-auto px-4 py-10">
+  <h1 class="font-serif text-4xl">My Orders</h1>
+  <% if @orders.any? %>
+    <div class="mt-8 divide-y divide-stone-100">
+      <% @orders.each do |order| %>
+        <div class="py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+          <div>
+            <p class="font-medium"><%= order.order_number %></p>
+            <p class="text-sm text-stone-500"><%= order.created_at.strftime("%d %b %Y") %> · <%= inr(order.total) %> · <%= order.payment_label %></p>
+          </div>
+          <div class="flex items-center gap-3">
+            <%= order_status_badge(order.order_status) %>
+            <%= link_to "View", order_path(order), class: "btn-outline !py-2" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p class="mt-8 text-stone-600">You have not placed an order yet.</p>
+    <%= link_to "Start shopping", shop_path, class: "btn-primary mt-6" %>
+  <% end %>
+</section>

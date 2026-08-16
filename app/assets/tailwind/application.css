@@ -1,0 +1,50 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #c2185b;
+  --color-brand-dark: #9d1450;
+  --color-gold: #c9a227;
+  --color-cream: #faf6f2;
+  --color-blush: #fce4ec;
+  --color-navy: #1a1a2e;
+  --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-navy);
+  background: #fff;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center bg-brand text-white px-6 py-3 text-xs uppercase tracking-[0.2em] font-medium hover:bg-brand-dark transition;
+}
+
+.btn-outline {
+  @apply inline-flex items-center justify-center border border-brand text-brand px-6 py-3 text-xs uppercase tracking-[0.2em] font-medium hover:bg-brand hover:text-white transition;
+}
+
+.btn-dark {
+  @apply inline-flex items-center justify-center bg-navy text-white px-6 py-3 text-xs uppercase tracking-[0.2em] font-medium hover:bg-brand transition;
+}
+
+.field-input {
+  @apply w-full border border-stone-200 px-4 py-3 text-sm focus:outline-none focus:border-brand bg-white;
+}
+
+.size-btn {
+  @apply min-w-12 h-11 px-3 border border-stone-300 text-sm font-medium hover:border-brand;
+}
+
+.size-btn-active {
+  @apply border-brand bg-brand text-white;
+}
+
+.size-btn-disabled {
+  @apply border-stone-200 text-stone-400 line-through cursor-not-allowed;
+}

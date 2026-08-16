@@ -1,0 +1,18 @@
+<% content_for :title, "Login" %>
+<section class="max-w-md mx-auto px-4 py-16">
+  <h1 class="font-serif text-4xl text-center">Welcome back</h1>
+  <p class="text-center text-stone-500 mt-2">Sign in to shop, checkout and track orders.</p>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "mt-8 space-y-4" }) do |f| %>
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email", class: "field-input" %>
+    <%= f.password_field :password, autocomplete: "current-password", placeholder: "Password", class: "field-input" %>
+    <% if devise_mapping.rememberable? %>
+      <label class="flex items-center gap-2 text-sm text-stone-600">
+        <%= f.check_box :remember_me %> Remember me
+      </label>
+    <% end %>
+    <%= f.submit "Sign in", class: "btn-primary w-full cursor-pointer" %>
+  <% end %>
+  <p class="mt-6 text-center text-sm text-stone-600">
+    New here? <%= link_to "Create an account", new_user_registration_path, class: "text-brand" %>
+  </p>
+</section>

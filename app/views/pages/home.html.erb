@@ -1,0 +1,133 @@
+<% content_for :title, "Home" %>
+
+<section class="bg-cream">
+  <div class="max-w-7xl mx-auto px-4 py-12 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <p class="text-xs tracking-[0.25em] uppercase text-gold mb-4">Kishori Closet</p>
+      <h1 class="font-serif text-5xl md:text-7xl leading-[0.95] text-navy">Style that<br>speaks you.</h1>
+      <p class="mt-6 text-stone-600 max-w-md">Contemporary Indian fashion — western wear, ethnic sets and everyday pieces made to feel like you.</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <%= link_to "Shop New Arrivals", new_arrivals_path, class: "btn-primary" %>
+        <%= link_to "Shop Bestsellers", best_sellers_path, class: "btn-outline" %>
+      </div>
+    </div>
+    <div class="relative">
+      <div class="aspect-[4/5] bg-blush overflow-hidden">
+        <% hero = @featured.first || @new_arrivals.first %>
+        <% if hero %>
+          <%= product_image_tag hero, classes: "w-full h-full object-cover" %>
+        <% else %>
+          <%= image_tag "logo.png", class: "w-full h-full object-contain p-16", alt: "Kishori Closet" %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="border-y border-stone-100">
+  <div class="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+    <div>
+      <p class="text-xs tracking-[0.2em] uppercase text-brand">Free Shipping</p>
+      <p class="mt-1 text-sm text-stone-500">On every order, across India</p>
+    </div>
+    <div>
+      <p class="text-xs tracking-[0.2em] uppercase text-brand">Premium Quality</p>
+      <p class="mt-1 text-sm text-stone-500">Fabrics chosen for everyday wear</p>
+    </div>
+    <div>
+      <p class="text-xs tracking-[0.2em] uppercase text-brand">Easy Returns</p>
+      <p class="mt-1 text-sm text-stone-500">7-day returns on unused pieces</p>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-7xl mx-auto px-4 py-16">
+  <div class="flex items-end justify-between mb-8">
+    <h2 class="font-serif text-3xl md:text-4xl">Shop by Category</h2>
+    <%= link_to "View all", shop_path, class: "text-xs uppercase tracking-[0.2em] text-brand" %>
+  </div>
+  <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-6">
+    <% @categories.each do |category| %>
+      <%= link_to shop_path(category_id: category.id), class: "text-center group" do %>
+        <div class="mx-auto h-24 w-24 md:h-28 md:w-28 rounded-full bg-cream overflow-hidden flex items-center justify-center group-hover:ring-2 ring-brand">
+          <% sample = category.products.active.first %>
+          <% if sample&.main_image %>
+            <%= image_tag sample.main_image, class: "h-full w-full object-cover", alt: category.name %>
+          <% else %>
+            <span class="font-serif text-2xl text-brand"><%= category.name.first %></span>
+          <% end %>
+        </div>
+        <p class="mt-3 text-xs uppercase tracking-[0.14em]"><%= category.name %></p>
+      <% end %>
+    <% end %>
+  </div>
+</section>
+
+<section class="bg-cream py-16">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-end justify-between mb-8">
+      <h2 class="font-serif text-3xl md:text-4xl">New Arrivals</h2>
+      <%= link_to "View all", new_arrivals_path, class: "text-xs uppercase tracking-[0.2em] text-brand" %>
+    </div>
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <% @new_arrivals.each do |product| %>
+        <%= render "products/card", product: product %>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-7xl mx-auto px-4 py-16">
+  <div class="flex items-end justify-between mb-8">
+    <h2 class="font-serif text-3xl md:text-4xl">Best Sellers</h2>
+    <%= link_to "View all", best_sellers_path, class: "text-xs uppercase tracking-[0.2em] text-brand" %>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <% @best_sellers.each do |product| %>
+      <%= render "products/card", product: product %>
+    <% end %>
+  </div>
+</section>
+
+<section class="bg-navy text-white">
+  <div class="max-w-7xl mx-auto px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+    <div>
+      <p class="text-xs tracking-[0.25em] uppercase text-gold">The Closet Edit</p>
+      <h2 class="font-serif text-4xl md:text-5xl mt-4">Pieces you’ll actually live in.</h2>
+      <p class="mt-4 text-white/70 max-w-md">From festive evenings to weekday plans, Kishori Closet is built around clothes that feel like you — not a costume.</p>
+      <%= link_to "Shop Now", shop_path, class: "btn-primary mt-8" %>
+    </div>
+    <div class="aspect-[5/4] bg-brand/30 overflow-hidden">
+      <% banner = @featured.second || @best_sellers.first %>
+      <% if banner %>
+        <%= product_image_tag banner, classes: "w-full h-full object-cover opacity-90" %>
+      <% end %>
+    </div>
+  </div>
+</section>
+
+<section class="max-w-7xl mx-auto px-4 py-16">
+  <div class="flex items-end justify-between mb-8">
+    <h2 class="font-serif text-3xl md:text-4xl">Featured</h2>
+  </div>
+  <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <% @featured.each do |product| %>
+      <%= render "products/card", product: product %>
+    <% end %>
+  </div>
+</section>
+
+<section class="bg-cream">
+  <div class="max-w-4xl mx-auto px-4 py-16 text-center">
+    <h2 class="font-serif text-3xl md:text-4xl">About Kishori Closet</h2>
+    <p class="mt-4 text-stone-600">Kishori Closet is a small fashion label for girls who want clothes that feel personal — easy silhouettes, honest prices, and Cash on Delivery across India.</p>
+    <%= link_to "Our story", about_path, class: "btn-outline mt-8" %>
+  </div>
+</section>
+
+<div class="bg-brand text-white">
+  <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
+    <p class="uppercase tracking-[0.16em] text-xs">Need help? Chat with us on WhatsApp</p>
+    <%= link_to "Chat now", whatsapp_url, target: "_blank", rel: "noopener", class: "btn-outline !text-white !border-white hover:!bg-white hover:!text-brand" %>
+  </div>
+</div>

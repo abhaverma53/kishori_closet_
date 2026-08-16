@@ -1,0 +1,9 @@
+<% content_for :title, "Shipping" %>
+<section class="max-w-3xl mx-auto px-4 py-16">
+  <h1 class="font-serif text-5xl">Shipping</h1>
+  <div class="mt-6 space-y-4 text-stone-600">
+    <p>We currently ship across India. Shipping is <%= inr(Rails.application.config.shipping_fee) %> on all orders.</p>
+    <p>Orders are packed after confirmation. Delivery timelines vary by city, typically 4–8 working days.</p>
+    <p>Payment is Cash on Delivery only.</p>
+  </div>
+</section>
