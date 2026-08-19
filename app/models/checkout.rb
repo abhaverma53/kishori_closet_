@@ -64,10 +64,20 @@ class Checkout
       cart.clear!
     end
 
+    send_order_emails if errors.empty? && order.present?
     errors.empty? && order.present?
   end
 
   private
+
+  def send_order_emails
+    order.order_items.load
+    OrderMailer.customer_order(order).deliver_now
+    OrderMailer.admin_order(order).deliver_now
+  rescue StandardError => e
+    Rails.logger.error("Order email failed for #{order.order_number}: #{e.class} #{e.message}")
+  end
+
 
   def save_address_if_requested
     return unless ActiveModel::Type::Boolean.new.cast(params[:save_address])

@@ -132,6 +132,8 @@ Environment=DATABASE_URL=postgres://kishori_closet:PASSWORD@localhost/kishori_cl
 Environment=RAILS_MASTER_KEY=YOUR_MASTER_KEY
 Environment=RAILS_SERVE_STATIC_FILES=true
 Environment=RAILS_LOG_TO_STDOUT=true
+Environment=SMTP_USERNAME=kishoricloset@gmail.com
+Environment=SMTP_PASSWORD=your-gmail-app-password
 ExecStart=/home/deploy/.rbenv/shims/bundle exec puma -C config/puma.rb
 Restart=always
 RestartSec=5

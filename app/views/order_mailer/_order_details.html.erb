@@ -1,0 +1,29 @@
+<p>
+  <strong>Order:</strong> <%= @order.order_number %><br>
+  <strong>Status:</strong> <%= @order.status_label %><br>
+  <strong>Payment:</strong> <%= @order.payment_label %> (<%= @order.payment_status.titleize %>)<br>
+  <strong>Total:</strong> <%= inr(@order.total) %>
+</p>
+
+<p>
+  <strong>Customer:</strong> <%= @order.customer_name %><br>
+  <strong>Phone:</strong> <%= @order.customer_phone %><br>
+  <strong>Address:</strong> <%= @order.delivery_address %>
+</p>
+
+<table cellpadding="6" cellspacing="0" border="1" style="border-collapse: collapse;">
+  <tr>
+    <th align="left">Product</th>
+    <th align="left">Size</th>
+    <th align="left">Qty</th>
+    <th align="left">Price</th>
+  </tr>
+  <% @order.order_items.each do |item| %>
+    <tr>
+      <td><%= item.product_name %></td>
+      <td><%= item.size %></td>
+      <td><%= item.quantity %></td>
+      <td><%= inr(item.total) %></td>
+    </tr>
+  <% end %>
+</table>

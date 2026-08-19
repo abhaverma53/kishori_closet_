@@ -1,0 +1,5 @@
+<p>Hi <%= @order.customer_name %>,</p>
+<p>Thank you for your order. We have received it and will process it shortly. Payment is Cash on Delivery.</p>
+<%= render "order_details" %>
+<p>You can view this order in your account: <%= link_to "View order", order_url(@order) %></p>
+<p>Kishori Closet<br><%= KishoriCloset::CONTACT_PHONE %></p>

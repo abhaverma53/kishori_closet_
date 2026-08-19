@@ -48,6 +48,14 @@ Rails.application.configure do
   config.assume_ssl = true
   config.public_file_server.enabled = true
 
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = {
+    host: ENV.fetch("APP_HOST", "localhost"),
+    protocol: "https"
+  }
+
   if ENV["APP_HOST"].present?
     config.hosts << ENV["APP_HOST"]
     config.hosts << "www.#{ENV["APP_HOST"]}"

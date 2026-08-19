@@ -1,0 +1,10 @@
+Hi <%= @order.customer_name %>,
+
+Thank you for your order. We have received it and will process it shortly. Payment is Cash on Delivery.
+
+<%= render "order_details" %>
+
+View order: <%= order_url(@order) %>
+
+Kishori Closet
+<%= KishoriCloset::CONTACT_PHONE %>

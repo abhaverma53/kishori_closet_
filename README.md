@@ -34,6 +34,18 @@ bin/rails test
 
 Default shipping is ₹0. Change it with the `SHIPPING_FEE` environment variable or `config.shipping_fee` in `config/application.rb`.
 
+### Order emails
+
+After an order is placed, the customer receives a confirmation at their signup email, and every admin receives the order details at their registered email.
+
+To send real Gmail messages, create a Google App Password for `kishoricloset@gmail.com` and start the server with:
+
+```bash
+SMTP_USERNAME=kishoricloset@gmail.com SMTP_PASSWORD=your-app-password bin/rails server
+```
+
+Without those variables, development writes emails to `tmp/mails` instead of sending them.
+
 ## Contact
 
 - Email: kishoricloset@gmail.com
