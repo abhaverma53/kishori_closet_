@@ -29,7 +29,10 @@
     <span>Total</span>
     <span><%= inr(@order.total) %></span>
   </div>
-  <p class="mt-4 text-sm text-stone-500">Payment: Cash on Delivery · <%= @order.payment_status.titleize %></p>
+  <p class="mt-4 text-sm text-stone-500">Payment: <%= @order.payment_label %> · <%= @order.payment_status.titleize %></p>
+  <% if @order.unpaid? %>
+    <%= button_to "Mark UPI payment as received", confirm_payment_admin_order_path(@order), method: :post, class: "btn-primary mt-4", data: { turbo_confirm: "Confirm that #{inr(@order.total)} has been received on UPI?" } %>
+  <% end %>
 </div>
 <div class="mt-6 bg-white border border-stone-100 p-6 max-w-md">
   <h2 class="text-xs uppercase tracking-[0.16em] text-brand">Order status</h2>

@@ -1,6 +1,6 @@
 Hi <%= @order.customer_name %>,
 
-Thank you for your order. We have received it and will process it shortly. Payment is Cash on Delivery.
+Thank you. We have received your UPI payment of <%= inr(@order.total) %> and your order is confirmed.
 
 <%= render "order_details" %>
 

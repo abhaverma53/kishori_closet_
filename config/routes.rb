@@ -36,6 +36,8 @@ Rails.application.routes.draw do
   resource :checkout, only: [:show, :create]
   resources :orders, only: [:index, :show] do
     get :confirmation, on: :member
+    get :pay, on: :member
+    post :confirm_payment, on: :member
   end
 
   resource :account, only: [:show, :edit, :update], controller: "accounts"
@@ -53,7 +55,9 @@ Rails.application.routes.draw do
     end
     resources :categories, except: [:show]
     resources :customers, only: [:index, :show]
-    resources :orders, only: [:index, :show, :update]
+    resources :orders, only: [:index, :show, :update] do
+      post :confirm_payment, on: :member
+    end
     get "inventory", to: "inventory#index"
     patch "inventory/:id", to: "inventory#update", as: :update_inventory
   end

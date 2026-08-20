@@ -1,4 +1,4 @@
-<p>A new order has been placed on Kishori Closet.</p>
+<p>A new UPI payment of <strong><%= inr(@order.total) %></strong> has been received for Kishori Closet.</p>
 <%= render "order_details" %>
 <p>Customer email: <%= @order.user.email %></p>
 <p><%= link_to "Open in admin", admin_order_url(@order) %></p>

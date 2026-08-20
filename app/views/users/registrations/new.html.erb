@@ -1,7 +1,7 @@
 <% content_for :title, "Sign up" %>
 <section class="max-w-md mx-auto px-4 py-16">
   <h1 class="font-serif text-4xl text-center">Create account</h1>
-  <p class="text-center text-stone-500 mt-2">Join Kishori Closet to place orders with Cash on Delivery.</p>
+  <p class="text-center text-stone-500 mt-2">Join Kishori Closet to shop and pay with UPI.</p>
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "mt-8 space-y-4" }) do |f| %>
     <%= render "users/shared/error_messages", resource: resource %>
     <%= f.text_field :name, autofocus: true, placeholder: "Full name", required: true, class: "field-input" %>

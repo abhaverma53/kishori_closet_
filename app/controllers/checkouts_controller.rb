@@ -10,7 +10,7 @@ class CheckoutsController < ApplicationController
   def create
     checkout = Checkout.new(user: current_user, params: checkout_params)
     if checkout.place_order
-      redirect_to confirmation_order_path(checkout.order), notice: "Order placed successfully."
+      redirect_to pay_order_path(checkout.order), notice: "Scan the QR code to pay and confirm your order."
     else
       @cart_items = current_cart.cart_items.includes(:product, :product_variant)
       @address = current_user.addresses.order(updated_at: :desc).first

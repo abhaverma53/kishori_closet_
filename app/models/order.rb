@@ -17,7 +17,7 @@ class Order < ApplicationRecord
   validates :order_number, presence: true, uniqueness: true
   validates :customer_name, :customer_phone, :address_line_1, :city, :state, :pincode, presence: true
   validates :order_status, inclusion: { in: STATUSES }
-  validates :payment_method, inclusion: { in: %w[COD] }
+  validates :payment_method, inclusion: { in: %w[UPI COD] }
   validates :pincode, format: { with: /\A\d{6}\z/, message: "must be a 6-digit PIN code" }
 
   before_validation :assign_order_number, on: :create
@@ -31,7 +31,28 @@ class Order < ApplicationRecord
   end
 
   def payment_label
-    payment_method == "COD" ? "Cash on Delivery" : payment_method
+    payment_method == "UPI" ? "UPI" : payment_method.titleize
+  end
+
+  def unpaid?
+    payment_status == "pending"
+  end
+
+  def paid?
+    payment_status == "paid"
+  end
+
+  def upi_pay_url
+    amount = format("%.2f", total.to_f)
+    "upi://pay?pa=#{KishoriCloset::UPI_ID}&pn=#{ERB::Util.url_encode(KishoriCloset::UPI_NAME)}&am=#{amount}&cu=INR&tn=#{order_number}"
+  end
+
+  def confirm_upi_payment!
+    return false unless unpaid?
+
+    update!(payment_status: "paid", order_status: "confirmed")
+    send_order_emails
+    true
   end
 
   def delivery_address
@@ -43,6 +64,14 @@ class Order < ApplicationRecord
   end
 
   private
+
+  def send_order_emails
+    order_items.load
+    OrderMailer.customer_order(self).deliver_now
+    OrderMailer.admin_order(self).deliver_now
+  rescue StandardError => e
+    Rails.logger.error("Order email failed for #{order_number}: #{e.class} #{e.message}")
+  end
 
   def assign_order_number
     return if order_number.present?

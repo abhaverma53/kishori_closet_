@@ -1,6 +1,6 @@
 # Kishori Closet
 
-Simple fashion e-commerce for Kishori Closet, built with Ruby on Rails, PostgreSQL and Tailwind CSS. Payment is Cash on Delivery only.
+Simple fashion e-commerce for Kishori Closet, built with Ruby on Rails, PostgreSQL and Tailwind CSS. Payment is UPI only.
 
 ## Local setup
 
@@ -36,7 +36,7 @@ Default shipping is ₹0. Change it with the `SHIPPING_FEE` environment variable
 
 ### Order emails
 
-After an order is placed, the customer receives a confirmation at their signup email, and every admin receives the order details at their registered email.
+After UPI payment is confirmed, the customer receives a confirmation at their signup email, and every admin receives the order details at their registered email.
 
 To send real Gmail messages, create a Google App Password for `kishoricloset@gmail.com` and start the server with:
 

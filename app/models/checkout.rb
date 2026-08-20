@@ -27,7 +27,7 @@ class Checkout
         subtotal: cart.subtotal,
         shipping_fee: cart.shipping_fee,
         total: cart.total,
-        payment_method: "COD",
+        payment_method: "UPI",
         payment_status: "pending",
         order_status: "pending",
         customer_name: params[:customer_name],
@@ -64,20 +64,10 @@ class Checkout
       cart.clear!
     end
 
-    send_order_emails if errors.empty? && order.present?
     errors.empty? && order.present?
   end
 
   private
-
-  def send_order_emails
-    order.order_items.load
-    OrderMailer.customer_order(order).deliver_now
-    OrderMailer.admin_order(order).deliver_now
-  rescue StandardError => e
-    Rails.logger.error("Order email failed for #{order.order_number}: #{e.class} #{e.message}")
-  end
-
 
   def save_address_if_requested
     return unless ActiveModel::Type::Boolean.new.cast(params[:save_address])

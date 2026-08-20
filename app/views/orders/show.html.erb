@@ -17,6 +17,9 @@
       <h2 class="text-xs uppercase tracking-[0.2em] text-brand">Payment</h2>
       <p class="mt-3"><%= @order.payment_label %></p>
       <p class="text-stone-600 mt-1">Status: <%= @order.payment_status.titleize %></p>
+      <% if @order.unpaid? %>
+        <%= link_to "Pay with UPI", pay_order_path(@order), class: "btn-primary mt-4" %>
+      <% end %>
     </div>
   </div>
 

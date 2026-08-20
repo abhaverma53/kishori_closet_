@@ -25,7 +25,7 @@
           <td class="px-4 py-3"><%= order.customer_name %></td>
           <td class="px-4 py-3"><%= order.customer_phone %></td>
           <td class="px-4 py-3"><%= inr(order.total) %></td>
-          <td class="px-4 py-3">COD</td>
+          <td class="px-4 py-3"><%= order.payment_label %></td>
           <td class="px-4 py-3"><%= order_status_badge(order.order_status) %></td>
           <td class="px-4 py-3"><%= order.created_at.strftime("%d %b %Y") %></td>
         </tr>

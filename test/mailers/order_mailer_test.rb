@@ -10,9 +10,9 @@ class OrderMailerTest < ActionMailer::TestCase
       subtotal: product.price,
       shipping_fee: 0,
       total: product.price,
-      payment_method: "COD",
-      payment_status: "pending",
-      order_status: "pending",
+      payment_method: "UPI",
+      payment_status: "paid",
+      order_status: "confirmed",
       customer_name: "Buyer",
       customer_phone: "9876543210",
       address_line_1: "12 MG Road",
@@ -36,7 +36,8 @@ class OrderMailerTest < ActionMailer::TestCase
     mail = OrderMailer.customer_order(@order)
     assert_equal [@customer.email], mail.to
     assert_match @order.order_number, mail.subject
-    assert_match "Cash on Delivery", mail.body.encoded
+    assert_match "UPI payment", mail.body.encoded
+    assert_match "1,499", mail.body.encoded
   end
 
   test "admin order email" do

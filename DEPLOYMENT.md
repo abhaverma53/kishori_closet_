@@ -249,6 +249,6 @@ sudo systemctl restart kishori_closet
 ## Local check before going live
 
 1. `bin/dev` works on your machine.
-2. Customer flow: sign up → shop → size → cart → checkout → COD → order.
+2. Customer flow: sign up → shop → size → cart → checkout → UPI QR pay → confirm order.
 3. Admin flow: login → products → stock → orders → status.
 4. Then follow this guide on the VPS. Do not deploy automatically from this repository.
