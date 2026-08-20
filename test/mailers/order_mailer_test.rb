@@ -46,4 +46,12 @@ class OrderMailerTest < ActionMailer::TestCase
     assert_match @order.order_number, mail.subject
     assert_match @order.customer_name, mail.body.encoded
   end
+
+  test "payment claim email" do
+    @order.update!(payment_status: "claimed", payment_reference: "123456789012", order_status: "pending")
+    mail = OrderMailer.payment_claim(@order)
+    assert_equal [@admin.email], mail.to
+    assert_match @order.order_number, mail.subject
+    assert_match "123456789012", mail.body.encoded
+  end
 end

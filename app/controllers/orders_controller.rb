@@ -17,10 +17,13 @@ class OrdersController < ApplicationController
   end
 
   def confirm_payment
-    if @order.confirm_upi_payment!
-      redirect_to confirmation_order_path(@order), notice: "Payment received. Your order is confirmed."
+    redirect_to confirmation_order_path(@order) and return if @order.paid?
+
+    if @order.claim_upi_payment!(params[:payment_reference])
+      redirect_to pay_order_path(@order), notice: "Payment details submitted. Your order will be confirmed after Kishori Closet verifies the UPI payment."
     else
-      redirect_to confirmation_order_path(@order), notice: "This order is already paid."
+      flash.now[:alert] = @order.errors[:payment_reference].presence&.to_sentence || "Enter the UPI transaction ID from your payment app."
+      render :pay, status: :unprocessable_entity
     end
   end
 

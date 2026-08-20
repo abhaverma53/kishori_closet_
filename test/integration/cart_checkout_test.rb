@@ -76,7 +76,31 @@ class CartCheckoutTest < ActionDispatch::IntegrationTest
     assert_redirected_to pay_order_path(order)
   end
 
-  test "confirming UPI payment emails customer and admin" do
+  test "clicking I have paid without a UTR does not confirm the order" do
+    post add_cart_path, params: { product_variant_id: @variant.id, quantity: 1 }
+    post checkout_path, params: {
+      checkout: {
+        customer_name: "Test Customer",
+        customer_phone: "9876543210",
+        address_line_1: "12 MG Road",
+        city: "Pune",
+        state: "Maharashtra",
+        pincode: "411001"
+      }
+    }
+    order = Order.last
+
+    assert_no_emails do
+      post confirm_payment_order_path(order)
+    end
+
+    order.reload
+    assert_equal "pending", order.payment_status
+    assert_equal "pending", order.order_status
+    assert_response :unprocessable_entity
+  end
+
+  test "submitting a UTR claims payment but does not confirm until admin verifies" do
     admin = create_admin(email: "admin-orders@example.com")
     post add_cart_path, params: { product_variant_id: @variant.id, quantity: 1 }
     post checkout_path, params: {
@@ -91,8 +115,24 @@ class CartCheckoutTest < ActionDispatch::IntegrationTest
     }
     order = Order.last
 
+    assert_emails 1 do
+      post confirm_payment_order_path(order), params: { payment_reference: "123456789012" }
+    end
+
+    order.reload
+    assert_equal "claimed", order.payment_status
+    assert_equal "pending", order.order_status
+    assert_equal "123456789012", order.payment_reference
+    claim_mail = ActionMailer::Base.deliveries.last
+    assert_equal [admin.email], claim_mail.to
+    assert_match(/verify/i, claim_mail.subject)
+    assert_redirected_to pay_order_path(order)
+
+    sign_out @customer
+    sign_in admin
+
     assert_emails 2 do
-      post confirm_payment_order_path(order)
+      post confirm_payment_admin_order_path(order)
     end
 
     order.reload
@@ -103,6 +143,6 @@ class CartCheckoutTest < ActionDispatch::IntegrationTest
     assert_equal [admin.email], admin_mail.to
     assert_match(/ORD-/, customer_mail.subject)
     assert_match(/1,499/, customer_mail.body.encoded)
-    assert_redirected_to confirmation_order_path(order)
+    assert_redirected_to admin_order_path(order)
   end
 end

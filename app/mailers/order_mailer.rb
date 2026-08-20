@@ -17,4 +17,15 @@ class OrderMailer < ApplicationMailer
       subject: "New Kishori Closet order #{order.order_number}"
     )
   end
+
+  def payment_claim(order)
+    @order = order
+    recipients = User.admin.pluck(:email)
+    recipients = [KishoriCloset::CONTACT_EMAIL] if recipients.blank?
+
+    mail(
+      to: recipients,
+      subject: "UPI payment submitted for #{order.order_number} — please verify"
+    )
+  end
 end

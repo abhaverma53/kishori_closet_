@@ -34,17 +34,44 @@ class Order < ApplicationRecord
     payment_method == "UPI" ? "UPI" : payment_method.titleize
   end
 
+  def payment_status_label
+    case payment_status
+    when "paid" then "Paid"
+    when "claimed" then "Awaiting verification"
+    else "Awaiting payment"
+    end
+  end
+
   def unpaid?
-    payment_status == "pending"
+    payment_status != "paid"
   end
 
   def paid?
     payment_status == "paid"
   end
 
+  def payment_claimed?
+    payment_status == "claimed"
+  end
+
   def upi_pay_url
     amount = format("%.2f", total.to_f)
     "upi://pay?pa=#{KishoriCloset::UPI_ID}&pn=#{ERB::Util.url_encode(KishoriCloset::UPI_NAME)}&am=#{amount}&cu=INR&tn=#{order_number}"
+  end
+
+  def claim_upi_payment!(utr)
+    return false if paid?
+
+    reference = utr.to_s.gsub(/\s+/, "").upcase
+    unless reference.match?(/\A[A-Z0-9]{8,30}\z/)
+      errors.add(:payment_reference, "Enter the UPI transaction ID / UTR from your payment app after paying.")
+      return false
+    end
+
+    already_claimed = payment_claimed? && payment_reference == reference
+    update!(payment_reference: reference, payment_status: "claimed")
+    send_payment_claim_email unless already_claimed
+    true
   end
 
   def confirm_upi_payment!
@@ -64,6 +91,12 @@ class Order < ApplicationRecord
   end
 
   private
+
+  def send_payment_claim_email
+    OrderMailer.payment_claim(self).deliver_now
+  rescue StandardError => e
+    Rails.logger.error("Payment claim email failed for #{order_number}: #{e.class} #{e.message}")
+  end
 
   def send_order_emails
     order_items.load

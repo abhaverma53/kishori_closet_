@@ -1,7 +1,10 @@
 <p>
   <strong>Order:</strong> <%= @order.order_number %><br>
   <strong>Status:</strong> <%= @order.status_label %><br>
-  <strong>Payment:</strong> <%= @order.payment_label %> (<%= @order.payment_status.titleize %>)<br>
+  <strong>Payment:</strong> <%= @order.payment_label %> (<%= @order.payment_status_label %>)<br>
+  <% if @order.payment_reference.present? %>
+    <strong>UPI transaction ID / UTR:</strong> <%= @order.payment_reference %><br>
+  <% end %>
   <strong>Total:</strong> <%= inr(@order.total) %>
 </p>
 

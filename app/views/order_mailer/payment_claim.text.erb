@@ -1,0 +1,11 @@
+A customer says they paid <%= inr(@order.total) %> for <%= @order.order_number %>.
+Please check your UPI / bank app for this transaction before confirming the order.
+
+UPI transaction ID / UTR: <%= @order.payment_reference %>
+Amount: <%= inr(@order.total) %>
+UPI ID: <%= KishoriCloset::UPI_ID %>
+
+<%= render "order_details" %>
+
+Customer email: <%= @order.user.email %>
+Verify in admin: <%= admin_order_url(@order) %>
