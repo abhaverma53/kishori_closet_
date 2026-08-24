@@ -14,6 +14,18 @@ bin/dev
 
 Open http://localhost:3000
 
+### Docker
+
+To run the store with Docker (Rails + PostgreSQL):
+
+```bash
+cp .env.example .env
+# set SECRET_KEY_BASE (openssl rand -hex 64), APP_HOST=localhost, FORCE_SSL=false
+docker compose up --build
+```
+
+Production steps are in [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ### Sample logins
 
 | Role | Email | Password |
