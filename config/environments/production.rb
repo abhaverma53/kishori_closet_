@@ -43,16 +43,31 @@ Rails.application.configure do
   # Can be used together with config.force_ssl for Strict-Transport-Security and secure cookies.
   # config.assume_ssl = true
 
-  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
-  config.force_ssl = true
-  config.assume_ssl = true
+  # Force SSL unless FORCE_SSL=false (needed for local Docker on http://localhost).
+  ssl_enabled = ENV.fetch("FORCE_SSL", "true") != "false"
+  config.force_ssl = ssl_enabled
+  config.assume_ssl = ssl_enabled
   config.public_file_server.enabled = true
+
+  app_protocol = ssl_enabled ? "https" : "http"
+  app_host = ENV.fetch("APP_HOST", "localhost")
+
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = {
+    host: app_host,
+    protocol: app_protocol
+  }
 
   if ENV["APP_HOST"].present?
     config.hosts << ENV["APP_HOST"]
     config.hosts << "www.#{ENV["APP_HOST"]}"
-    config.action_controller.default_url_options = { host: ENV["APP_HOST"], protocol: "https" }
+    config.action_controller.default_url_options = { host: ENV["APP_HOST"], protocol: app_protocol }
   end
+  config.hosts << "localhost"
+  config.hosts << "127.0.0.1"
+  config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
   # Log to STDOUT by default
   config.logger = ActiveSupport::Logger.new(STDOUT)
@@ -83,12 +98,4 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
-
-  # Enable DNS rebinding protection and other `Host` header attacks.
-  # config.hosts = [
-  #   "example.com",     # Allow requests from example.com
-  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
-  # ]
-  # Skip DNS rebinding protection for the default health check endpoint.
-  # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 end

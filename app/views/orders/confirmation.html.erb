@@ -1,8 +1,8 @@
 <% content_for :title, "Order placed" %>
 <section class="max-w-xl mx-auto px-4 py-16 text-center">
   <p class="text-xs tracking-[0.25em] uppercase text-gold">Kishori Closet</p>
-  <h1 class="font-serif text-4xl mt-3">Order placed successfully</h1>
-  <p class="mt-4 text-stone-600">Thank you for your order!</p>
+  <h1 class="font-serif text-4xl mt-3">Order confirmed</h1>
+  <p class="mt-4 text-stone-600">Thank you. Your UPI payment of <%= inr(@order.total) %> is received and your order is confirmed.</p>
   <div class="mt-8 border border-stone-100 p-6 text-left space-y-3">
     <p><span class="text-stone-500">Order Number:</span> <strong><%= @order.order_number %></strong></p>
     <p><span class="text-stone-500">Payment:</span> <%= @order.payment_label %></p>

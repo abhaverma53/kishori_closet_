@@ -1,0 +1,6 @@
+A new UPI payment of <%= inr(@order.total) %> has been received for Kishori Closet.
+
+<%= render "order_details" %>
+
+Customer email: <%= @order.user.email %>
+Open in admin: <%= admin_order_url(@order) %>

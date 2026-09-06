@@ -1,0 +1,24 @@
+#!/bin/bash -e
+
+rm -f /rails/tmp/pids/server.pid
+
+if [ -z "${SECRET_KEY_BASE}" ] && [ -z "${RAILS_MASTER_KEY}" ]; then
+  echo "Set SECRET_KEY_BASE in .env first: openssl rand -hex 64" >&2
+  exit 1
+fi
+
+if [ "${1}" = "./bin/rails" ] && [ "${2}" = "server" ]; then
+  echo "Preparing database..."
+  i=0
+  until ./bin/rails db:prepare; do
+    i=$((i + 1))
+    if [ "$i" -ge 30 ]; then
+      echo "Database did not become ready in time." >&2
+      exit 1
+    fi
+    echo "Waiting for PostgreSQL (attempt $i)..."
+    sleep 2
+  done
+fi
+
+exec "${@}"

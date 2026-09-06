@@ -37,8 +37,8 @@
 
       <div class="border border-stone-100 p-6">
         <h2 class="text-xs uppercase tracking-[0.2em] text-brand">Payment</h2>
-        <p class="mt-3 font-medium">Cash on Delivery</p>
-        <p class="text-sm text-stone-500 mt-1">Pay when your order arrives. No online payment is collected.</p>
+        <p class="mt-3 font-medium">UPI</p>
+        <p class="text-sm text-stone-500 mt-1">After you place the order, a QR code will appear. Pay <%= inr(current_cart.total) %>, enter the UPI transaction ID, then Kishori Closet will verify the payment before confirming the order.</p>
       </div>
     </div>
 
@@ -60,7 +60,7 @@
         <div class="flex justify-between"><span>Shipping</span><span><%= inr(current_cart.shipping_fee) %></span></div>
         <div class="flex justify-between font-medium text-base"><span>Total</span><span><%= inr(current_cart.total) %></span></div>
       </div>
-      <%= submit_tag "Place order", class: "btn-primary w-full mt-6 cursor-pointer" %>
+      <%= submit_tag "Continue to payment", class: "btn-primary w-full mt-6 cursor-pointer" %>
     </aside>
   <% end %>
 </section>

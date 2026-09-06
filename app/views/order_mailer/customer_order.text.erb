@@ -1,0 +1,10 @@
+Hi <%= @order.customer_name %>,
+
+Thank you. We have received your UPI payment of <%= inr(@order.total) %> and your order is confirmed.
+
+<%= render "order_details" %>
+
+View order: <%= order_url(@order) %>
+
+Kishori Closet
+<%= KishoriCloset::CONTACT_PHONE %>

@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kishori_closet
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: kishori_closet_production
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kishori_closet -d kishori_closet_production"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build: .
+    image: kishori_closet:latest
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - .env
+    environment:
+      RAILS_ENV: production
+      DATABASE_URL: postgres://kishori_closet:${POSTGRES_PASSWORD}@db:5432/kishori_closet_production
+    volumes:
+      - storage_data:/rails/storage
+    depends_on:
+      - db
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/up || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
+
+volumes:
+  postgres_data:
+  storage_data:

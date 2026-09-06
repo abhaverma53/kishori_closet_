@@ -1,6 +1,6 @@
 # Kishori Closet
 
-Simple fashion e-commerce for Kishori Closet, built with Ruby on Rails, PostgreSQL and Tailwind CSS. Payment is Cash on Delivery only.
+Simple fashion e-commerce for Kishori Closet, built with Ruby on Rails, PostgreSQL and Tailwind CSS. Payment is UPI only.
 
 ## Local setup
 
@@ -13,6 +13,18 @@ bin/dev
 ```
 
 Open http://localhost:3000
+
+### Docker
+
+To run the store with Docker (Rails + PostgreSQL):
+
+```bash
+cp .env.example .env
+# set SECRET_KEY_BASE (openssl rand -hex 64), APP_HOST=localhost, FORCE_SSL=false
+docker compose up --build
+```
+
+Production steps are in [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ### Sample logins
 
@@ -33,6 +45,18 @@ bin/rails test
 ### Shipping fee
 
 Default shipping is ₹0. Change it with the `SHIPPING_FEE` environment variable or `config.shipping_fee` in `config/application.rb`.
+
+### Order emails
+
+After UPI payment is confirmed, the customer receives a confirmation at their signup email, and every admin receives the order details at their registered email.
+
+To send real Gmail messages, create a Google App Password for `kishoricloset@gmail.com` and start the server with:
+
+```bash
+SMTP_USERNAME=kishoricloset@gmail.com SMTP_PASSWORD=your-app-password bin/rails server
+```
+
+Without those variables, development writes emails to `tmp/mails` instead of sending them.
 
 ## Contact
 

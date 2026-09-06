@@ -66,7 +66,7 @@ class AdminManagementTest < ActionDispatch::IntegrationTest
       subtotal: product.price,
       shipping_fee: 0,
       total: product.price,
-      payment_method: "COD",
+      payment_method: "UPI",
       payment_status: "pending",
       order_status: "pending",
       customer_name: customer.name,

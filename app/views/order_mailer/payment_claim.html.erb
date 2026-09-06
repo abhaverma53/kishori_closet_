@@ -1,0 +1,10 @@
+<p>A customer says they paid <strong><%= inr(@order.total) %></strong> for <%= @order.order_number %>.</p>
+<p>Please check your UPI / bank app for this transaction before confirming the order:</p>
+<p>
+  <strong>UPI transaction ID / UTR:</strong> <%= @order.payment_reference %><br>
+  <strong>Amount:</strong> <%= inr(@order.total) %><br>
+  <strong>UPI ID:</strong> <%= KishoriCloset::UPI_ID %>
+</p>
+<%= render "order_details" %>
+<p>Customer email: <%= @order.user.email %></p>
+<p><%= link_to "Verify in admin", admin_order_url(@order) %></p>

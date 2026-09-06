@@ -5,9 +5,13 @@ puts "Seeding Kishori Closet..."
 image_script = Rails.root.join("db/seeds/generate_images.py")
 image_dir = Rails.root.join("db/seeds/images")
 unless image_dir.glob("*.jpg").any?
-  stdout, stderr, status = Open3.capture3("python3", image_script.to_s)
-  puts stdout
-  puts stderr unless status.success?
+  if system("which", "python3", out: File::NULL, err: File::NULL)
+    stdout, stderr, status = Open3.capture3("python3", image_script.to_s)
+    puts stdout
+    puts stderr unless status.success?
+  else
+    puts "Skipping sample image generation (python3 is not installed)."
+  end
 end
 
 OrderItem.delete_all
@@ -243,7 +247,7 @@ order = abha.orders.create!(
   subtotal: floral.price,
   shipping_fee: 0,
   total: floral.price,
-  payment_method: "COD",
+  payment_method: "UPI",
   payment_status: "pending",
   order_status: "pending",
   customer_name: "Abha Sharma",
@@ -270,7 +274,7 @@ order_two = meera.orders.create!(
   subtotal: midi.price,
   shipping_fee: 0,
   total: midi.price,
-  payment_method: "COD",
+  payment_method: "UPI",
   payment_status: "pending",
   order_status: "delivered",
   customer_name: "Meera Patel",

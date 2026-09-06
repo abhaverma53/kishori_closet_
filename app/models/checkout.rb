@@ -27,7 +27,7 @@ class Checkout
         subtotal: cart.subtotal,
         shipping_fee: cart.shipping_fee,
         total: cart.total,
-        payment_method: "COD",
+        payment_method: "UPI",
         payment_status: "pending",
         order_status: "pending",
         customer_name: params[:customer_name],

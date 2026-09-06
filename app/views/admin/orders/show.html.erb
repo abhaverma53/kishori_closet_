@@ -29,7 +29,16 @@
     <span>Total</span>
     <span><%= inr(@order.total) %></span>
   </div>
-  <p class="mt-4 text-sm text-stone-500">Payment: Cash on Delivery · <%= @order.payment_status.titleize %></p>
+  <p class="mt-4 text-sm text-stone-500">Payment: <%= @order.payment_label %> · <%= @order.payment_status_label %></p>
+  <% if @order.payment_reference.present? %>
+    <p class="mt-2 text-sm">UPI transaction ID / UTR: <strong class="tracking-wide"><%= @order.payment_reference %></strong></p>
+  <% end %>
+  <% if @order.payment_claimed? %>
+    <p class="mt-3 text-sm text-amber-800 bg-amber-50 border border-amber-100 rounded-xl p-3">The customer submitted a UTR. Confirm the order only after this amount appears in your UPI / bank app.</p>
+  <% end %>
+  <% if @order.unpaid? %>
+    <%= button_to "Mark UPI payment as received", confirm_payment_admin_order_path(@order), method: :post, class: "btn-primary mt-4", data: { turbo_confirm: "Confirm that #{inr(@order.total)} has been received on UPI for UTR #{@order.payment_reference.presence || 'not provided'}?" } %>
+  <% end %>
 </div>
 <div class="mt-6 bg-white border border-stone-100 p-6 max-w-md">
   <h2 class="text-xs uppercase tracking-[0.16em] text-brand">Order status</h2>

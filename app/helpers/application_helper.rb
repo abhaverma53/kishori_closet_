@@ -51,6 +51,14 @@ module ApplicationHelper
     KishoriCloset::WHATSAPP_URL
   end
 
+  def facebook_url
+    KishoriCloset::FACEBOOK_URL
+  end
+
+  def instagram_url
+    KishoriCloset::INSTAGRAM_URL
+  end
+
   def footer_category_id(slug)
     @footer_category_ids ||= Category.active.pluck(:slug, :id).to_h
     @footer_category_ids[slug]

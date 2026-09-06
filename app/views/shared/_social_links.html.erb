@@ -1,0 +1,6 @@
+<% tone = local_assigns.fetch(:tone, :light) %>
+<% link_class = tone == :dark ? "hover:text-gold" : "text-brand hover:text-brand-dark" %>
+<div class="flex flex-wrap items-center gap-4 <%= local_assigns[:wrapper_class] %>">
+  <%= link_to "Instagram", instagram_url, target: "_blank", rel: "noopener", class: link_class %>
+  <%= link_to "Facebook", facebook_url, target: "_blank", rel: "noopener", class: link_class %>
+</div>

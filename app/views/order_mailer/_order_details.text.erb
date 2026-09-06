@@ -1,0 +1,15 @@
+Order: <%= @order.order_number %>
+Status: <%= @order.status_label %>
+Payment: <%= @order.payment_label %> (<%= @order.payment_status_label %>)
+<% if @order.payment_reference.present? -%>
+UPI transaction ID / UTR: <%= @order.payment_reference %>
+<% end -%>
+Total: <%= inr(@order.total) %>
+
+Customer: <%= @order.customer_name %>
+Phone: <%= @order.customer_phone %>
+Address: <%= @order.delivery_address %>
+
+<% @order.order_items.each do |item| -%>
+- <%= item.product_name %> / Size <%= item.size %> / Qty <%= item.quantity %> / <%= inr(item.total) %>
+<% end -%>
