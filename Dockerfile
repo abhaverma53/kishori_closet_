@@ -1,5 +1,5 @@
-ARG RUBY_VERSION=3.2.0
-FROM ruby:${RUBY_VERSION}-slim AS base
+ARG RUBY_VERSION=3.2
+FROM ruby:${RUBY_VERSION}-slim-bookworm AS base
 
 WORKDIR /rails
 
